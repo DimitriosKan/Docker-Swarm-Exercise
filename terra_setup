@@ -83,3 +83,6 @@ then
         echo Applying ...
 	terraform apply
 fi
+
+echo "Global IP is:"
+gcloud compute instances describe instanceName --zone=instanceZone | grep natIP
