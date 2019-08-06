@@ -1,6 +1,6 @@
 # - - - CREATE PRIMARY VM INSTANCE - - - 
 resource "google_compute_instance" "main" {
-	name = "${var.name}-main"
+	name = "${var.name}-${formatdate("DDmmss", timestamp())}"
 	machine_type = "${var.machine_type}"
 	zone = "${var.zone}"
 	tags = ["${var.name}"]
@@ -20,7 +20,7 @@ resource "google_compute_instance" "main" {
 	}
 	connection {
 		type = "ssh"
-		user = "mrhyd"
+		user = "terraform"
 		host = "${google_compute_instance.main.network_interface.0.access_config.0.nat_ip}"
 		private_key = "${file("${var.private_key}")}"
 	}
@@ -31,6 +31,10 @@ resource "google_compute_instance" "main" {
 		]
 	}
 	provisioner "remote-exec" {
-		scripts = ["scripts/main_tf_script"]
+		scripts = [
+                  "scripts/test_script",
+                  "scripts/docker_tf_script",
+                  "scripts/docker-compose_tf_script"
+                ]
 	}
 }

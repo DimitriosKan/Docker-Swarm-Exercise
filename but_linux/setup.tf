@@ -7,7 +7,7 @@ variable "name" {
 }
 
 variable "machine_type" {
-	default = "f1-micro"
+	default = "g1-small"
 }
 
 variable "zone" {
@@ -15,7 +15,7 @@ variable "zone" {
 }
 
 variable "image" {
-	default = "ubuntu-1810"
+	default = "ubuntu-1804-lts"
 }
 
 variable "network" {
@@ -60,7 +60,8 @@ variable "scripts" {
 variable "allowed_ports" {
 	default = [
 		"22",
-		"5000"
+		"5000",
+                "8080"
 	]
 }
 
