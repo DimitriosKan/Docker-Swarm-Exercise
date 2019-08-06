@@ -1,0 +1,85 @@
+#!/bin/bash
+
+# apt updates and housekeeping
+
+sudo apt update
+
+sudo apt install -y unzip wget
+
+# Terraform install
+
+	#	grep latest version
+VERSN="$(curl -sL "https://releases.hashicorp.com/terraform/" | grep -v beta | grep -Po "_(\d*\.?){3}" | sed "s/.//" | sort -V | tail -1)"
+	#	grep latest version
+
+wget https://releases.hashicorp.com/terraform/${VERSN}/terraform_${VERSN}_linux_amd64.zip
+
+unzip terraform_*_linux_*.zip
+
+echo move to bin
+#read
+
+sudo mv terraform /usr/local/bin
+
+echo remove zip
+#read
+
+rm terraform_*_linux_*.zip
+
+echo Terraform was installed
+terraform --version
+
+echo Continue to GCP setup
+#read
+
+if type gcloud; then
+	echo "gCloud is installed"
+else
+	curl -sL https://sdk.cloud.google.com | sudo bash
+fi
+
+	# gcp login
+
+
+# if type *GCP Project*; then
+# 	echo "continue"
+# else
+#	gcloud project create *GCP Project*
+# fi
+	
+# choose to continue with terraforming or not
+
+while true; do
+  read -r -p "Initialize terraforming [Yes/No] ? " yn
+  case $yn in
+    [Yy][Ee][sS]|[yY]* )
+	cd but_linux/
+	terraform init
+	echo "Terraform initialized";
+	echo "*  *  *  *  *"
+	echo "*  *  *  *  *"
+	terraform validate
+	echo "*  *  *  *  *"
+	echo "*  *  *  *  *"
+	terraform plan
+	echo "*  *  *  *  *"
+	echo "*  *  *  *  *"
+	break;;
+    [Nn][Oo]|[nN]* )
+	echo "Make your edits to the terraform files";
+	exit;;
+    * ) echo "Pick a valid input ...";;
+  esac
+done
+
+# 'terraform apply' prompt
+
+read -p "Apply above Terraform[Yy]? " -n 1 -r
+echo
+
+if [[ $REPLY =~ ^[Yy] ]];
+
+then
+        echo Applying ...
+	terraform apply
+fi

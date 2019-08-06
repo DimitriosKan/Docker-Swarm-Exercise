@@ -1,0 +1,8 @@
+#!/bin/bash
+
+echo "*  *  *  *"
+echo "Docker Script Starting"
+
+git clone -b Terraform https://github.com/DimitriosKan/Docker-Install.git
+
+cd Docker-Install/ && ./01install_docker
