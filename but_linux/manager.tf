@@ -30,16 +30,16 @@ resource "google_compute_instance" "main" {
 			"${var.install_packages[var.package_manager]} ${join(" ", var.packages)}"
 		]
 	}
+	provisioner "file" {
+		source = "scripts/swarm_setup_tutorial/managernd_swarm_script"
+		destination = "/home/hydrogen/managernd_swarm_script"
+	}
 	provisioner "remote-exec" {
 		scripts = [
                   "scripts/test_script",
                   "scripts/docker_tf_script",
                   "scripts/docker-compose_tf_script"
                 ]
-	}
-	provisioner "file" {
-		source = "scripts/swarm_setup_tutorial/managernd_swarm_script"
-		destination = "/home/hydrogen/managernd_swarm_script"
 	}
 }
 output "name" {

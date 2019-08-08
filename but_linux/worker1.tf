@@ -16,11 +16,11 @@ resource "google_compute_instance" "worker1" {
 		}
 	}
 	metadata = {
-		sshKeys = "terraform:${file("${var.public_key}")}"
+		sshKeys = "swarmboi:${file("${var.public_key}")}"
 	}
 	connection {
 		type = "ssh"
-		user = "terraform"
+		user = "swarmboi"
 		host = "${google_compute_instance.worker1.network_interface.0.access_config.0.nat_ip}"
 		private_key = "${file("${var.private_key}")}"
 	}
@@ -30,6 +30,10 @@ resource "google_compute_instance" "worker1" {
 			"${var.install_packages[var.package_manager]} ${join(" ", var.packages)}"
 		]
 	}
+        provisioner "file" {
+                source = "scripts/swarm_setup_tutorial/workernd_swarm_script"
+                destination = "/home/swarmboi/workernd_swarm_script"
+        }
 	provisioner "remote-exec" {
 		scripts = [
                   "scripts/test_script",
@@ -42,5 +46,5 @@ output "worker_name" {
         value = "${google_compute_instance.worker1.name}"
 }
 output "worker_ip" {
-        value = "${google_compute_instance.worker1.network_interface.0.access_config.0.nat_ip}"
+        value = "ssh swarmboi@${google_compute_instance.worker1.network_interface.0.access_config.0.nat_ip}"
 }

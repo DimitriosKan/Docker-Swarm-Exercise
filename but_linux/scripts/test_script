@@ -1,3 +1,17 @@
+# script is VERY much not a test ANYMORE
+# chmod function is pretty important for making it a bit easier to run straight off the bat
+
 echo "*  *  *  *  *  *  *  *  *"
 echo "Boi works"
 echo "*  *  *  *  *  *  *  *  *"
+
+pwd
+
+echo "*  *  *  *  *  *  *  *  *"
+echo ""
+echo "*  *  *  *  *  *  *  *  *"
+
+ls
+
+#chmod either of the files we copy over, be it on the Master or Worker node
+chmod a+x *_swarm_script

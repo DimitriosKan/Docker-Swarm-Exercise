@@ -12,7 +12,7 @@ echo ""
 echo "Run next command after you have completed the setup on the Manager node"
 
 echo ""
-echo "$ curl http://[the_Managers_pub-ip]"
+echo "$ curl http://[the_Managers_private-ip]"
 
 echo ""
 echo "*  *  *  *  *  *  *  *"
