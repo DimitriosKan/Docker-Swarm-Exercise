@@ -38,4 +38,9 @@ resource "google_compute_instance" "worker1" {
                 ]
 	}
 }
-
+output "worker_name" {
+        value = "${google_compute_instance.worker1.name}"
+}
+output "worker_ip" {
+        value = "${google_compute_instance.worker1.network_interface.0.access_config.0.nat_ip}"
+}

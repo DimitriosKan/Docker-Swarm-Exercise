@@ -4,3 +4,5 @@ echo "*  *  *  *"
 echo "Docker-Compose Script Starting"
 
 cd Docker-Install/ && ./02install_docker-compose
+
+cd ~ && rm -rf Docker-Install

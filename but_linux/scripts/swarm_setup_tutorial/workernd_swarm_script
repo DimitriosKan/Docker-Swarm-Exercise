@@ -1,0 +1,19 @@
+#!/bin/bash
+
+# user your flask app (make a docker image and push to docker hub)
+echo ""
+echo "*  *  *  *  *  *  *  *"
+echo ""
+echo "$ docker swarm join [token_from_Manager]"
+echo ""
+echo "*  *  *  *  *  *  *  *"
+
+echo ""
+echo "Run next command after you have completed the setup on the Manager node"
+
+echo ""
+echo "$ curl http://[the_Managers_pub-ip]"
+
+echo ""
+echo "*  *  *  *  *  *  *  *"
+echo ""

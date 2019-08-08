@@ -1,0 +1,43 @@
+#!/bin/bash
+
+# user your flask app (make a docker image and push to docker hub)
+
+echo "*  *  *  *  *  *  *  *"
+echo "Swarm initialization started on Manager Node"
+echo "*  *  *  *  *  *  *  *"
+docker swarm init
+echo ""
+echo "Copy above token and SSH into your Worker Nodes"
+echo ""
+echo "*  *  *  *  *  *  *  *"
+echo ""
+echo "Press Enter after you have ran through the Worker node setup"
+read 
+
+docker service create --name fancy_service --publish 80:9000 --replicas 2 bobcrutchley/python-http-server:latest
+
+echo ""
+echo "*  *  *  *  *  *  *  *"
+echo ""
+while true; do
+	read -r -p "Do you want to change something [Yes/No] ? " yn
+	case $yn in
+		[Yy][Ee][sS]|[yY]* )
+			echo "docker service update --publish-add [outside_port]:[inside_port] --replicas [replicas] --image [image_name] fancy_service"
+			break;;
+		[Nn][Oo]|[nN]* )
+			echo "*  *  *  *  *  *  *  *"
+			echo "VV Runnind nodes below VV"
+			echo "*  *  *  *  *  *  *  *"
+			docker node ls
+			echo ""
+			echo "*  *  *  *  *  *  *  *"
+			echo "VV Runnind nodes below VV"
+			echo "*  *  *  *  *  *  *  *"
+			docker service ls
+			echo "*  *  *  *  *  *  *  *"
+			echo ""
+			exit;;
+		* ) echo "Pick a valid input ...";;
+	esac
+done

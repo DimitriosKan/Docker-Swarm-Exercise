@@ -16,11 +16,11 @@ resource "google_compute_instance" "main" {
 		}
 	}
 	metadata = {
-		sshKeys = "terraform:${file("${var.public_key}")}"
+		sshKeys = "hydrogen:${file("${var.public_key}")}"
 	}
 	connection {
 		type = "ssh"
-		user = "terraform"
+		user = "hydrogen"
 		host = "${google_compute_instance.main.network_interface.0.access_config.0.nat_ip}"
 		private_key = "${file("${var.private_key}")}"
 	}
@@ -37,4 +37,14 @@ resource "google_compute_instance" "main" {
                   "scripts/docker-compose_tf_script"
                 ]
 	}
+	provisioner "file" {
+		source = "scripts/swarm_setup_tutorial/managernd_swarm_script"
+		destination = "/home/hydrogen/managernd_swarm_script"
+	}
+}
+output "name" {
+	value = "${google_compute_instance.main.name}"
+}
+output "ip" {
+        value = "ssh hydrogen@${google_compute_instance.main.network_interface.0.access_config.0.nat_ip}"
 }
