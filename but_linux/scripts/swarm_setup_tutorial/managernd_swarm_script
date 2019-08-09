@@ -14,7 +14,7 @@ echo ""
 echo "Press Enter after you have ran through the Worker node setup"
 read 
 
-docker service create --name fancy_service --publish 80:9000 --replicas 2 bobcrutchley/python-http-server:latest
+docker service create --name fancy_service --publish 80:9000 --replicas 2 dimitrioskay/basic-flask:latest
 
 echo ""
 echo "*  *  *  *  *  *  *  *"
