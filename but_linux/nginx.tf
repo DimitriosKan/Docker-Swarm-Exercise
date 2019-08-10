@@ -1,9 +1,9 @@
 # - - - CREATE PRIMARY VM INSTANCE - - - 
-resource "google_compute_instance" "worker1" {
-	name = "${var.name}-worker-boi-1${formatdate("DDmmss", timestamp())}"
+resource "google_compute_instance" "nginx" {
+	name = "${var.name}-nginx-${formatdate("DDmmss", timestamp())}"
 	machine_type = "${var.machine_type}"
 	zone = "${var.zone}"
-	tags = ["${var.name}-worker"]
+	tags = ["${var.name}-nginx"]
 	boot_disk {
 		initialize_params {
 			image = "${var.image}"
@@ -16,12 +16,12 @@ resource "google_compute_instance" "worker1" {
 		}
 	}
 	metadata = {
-		sshKeys = "swarmboi:${file("${var.public_key}")}"
+		sshKeys = "nginx:${file("${var.public_key}")}"
 	}
 	connection {
 		type = "ssh"
-		user = "swarmboi"
-		host = "${google_compute_instance.worker1.network_interface.0.access_config.0.nat_ip}"
+		user = "nginx"
+		host = "${google_compute_instance.nginx.network_interface.0.access_config.0.nat_ip}"
 		private_key = "${file("${var.private_key}")}"
 	}
 	provisioner "remote-exec" {
@@ -30,10 +30,14 @@ resource "google_compute_instance" "worker1" {
 			"${var.install_packages[var.package_manager]} ${join(" ", var.packages)}"
 		]
 	}
-        provisioner "file" {
-                source = "scripts/swarm_setup_tutorial/workernd_swarm_script"
-                destination = "/home/swarmboi/workernd_swarm_script"
-        }
+	provisioner "file" {
+		source = "scripts/swarm_setup_tutorial/nginx_swarm_script"
+		destination = "/home/nginx/nginx_swarm_script"
+	}
+	provisioner "file" {
+		source = "scripts/swarm_setup_tutorial/nginx.conf"
+		destination = "/home/nginx/nginx.conf"
+	}
 	provisioner "remote-exec" {
 		scripts = [
                   "scripts/test_script",
@@ -42,6 +46,6 @@ resource "google_compute_instance" "worker1" {
                 ]
 	}
 }
-output "WORKER1-VM" {
-        value = "ssh swarmboi@${google_compute_instance.worker1.network_interface.0.access_config.0.nat_ip}"
+output "NGINX-VM" {
+        value  = "ssh nginx@${google_compute_instance.nginx.network_interface.0.access_config.0.nat_ip}"
 }

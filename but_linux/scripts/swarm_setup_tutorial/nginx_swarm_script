@@ -1,0 +1,24 @@
+#!/bin/bash
+echo ""
+echo "This machine's private IP is: "
+hostname --ip-address
+echo ""
+
+echo ""
+echo "*  *  *  *  *  *  *  *"
+echo ""
+echo "Edit nginx.conf file with the IPs of the swarm nodes"
+echo "... and run next command"
+echo ""
+echo "*  *  *  *  *  *  *  *"
+
+echo ""
+echo "$ docker run -d -p 80:80 --name nginx-swarm-ingress --mount type=bind,source=$(pwd)/nginx.conf,target=/etc/nginx/nginx.conf nginx:latest"
+#the bind mount property sends over the file specified in source to the location on the container created, replacing the generated nginx.conf
+echo ""
+echo "*  *  *  *  *  *  *  *"
+echo ""
+echo "Curl the Public IP or if you Terraformed the structure, just go to the Public IP on your browser"
+echo ""
+echo "*  *  *  *  *  *  *  *"
+echo ""

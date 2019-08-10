@@ -3,7 +3,7 @@ resource "google_compute_instance" "worker2" {
 	name = "${var.name}-worker-boi-2${formatdate("DDmmss", timestamp())}"
 	machine_type = "${var.machine_type}"
 	zone = "${var.zone}"
-	tags = ["${var.name}"]
+	tags = ["${var.name}-worker"]
 	boot_disk {
 		initialize_params {
 			image = "${var.image}"
@@ -42,9 +42,6 @@ resource "google_compute_instance" "worker2" {
                 ]
 	}
 }
-output "worker2_name" {
-        value = "${google_compute_instance.worker2.name}"
-}
-output "worker2_ip" {
+output "WORKER2-VM" {
         value = "ssh swarmboi@${google_compute_instance.worker2.network_interface.0.access_config.0.nat_ip}"
 }

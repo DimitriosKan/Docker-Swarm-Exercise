@@ -5,4 +5,4 @@
 #echo ""
 #read
 
-terraform apply -target google_compute_instance.main -target google_compute_firewall.default -target google_compute_instance.worker1
+terraform apply -target google_compute_instance.nginx -target google_compute_firewall.default

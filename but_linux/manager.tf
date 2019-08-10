@@ -1,9 +1,9 @@
 # - - - CREATE PRIMARY VM INSTANCE - - - 
 resource "google_compute_instance" "main" {
-	name = "${var.name}-${formatdate("DDmmss", timestamp())}"
+	name = "${var.name}-manager-${formatdate("DDmmss", timestamp())}"
 	machine_type = "${var.machine_type}"
 	zone = "${var.zone}"
-	tags = ["${var.name}"]
+	tags = ["${var.name}-manager"]
 	boot_disk {
 		initialize_params {
 			image = "${var.image}"
@@ -42,9 +42,6 @@ resource "google_compute_instance" "main" {
                 ]
 	}
 }
-output "name" {
-	value = "${google_compute_instance.main.name}"
-}
-output "ip" {
+output "MANAGER-VM" {
         value = "ssh hydrogen@${google_compute_instance.main.network_interface.0.access_config.0.nat_ip}"
 }

@@ -60,6 +60,7 @@ variable "scripts" {
 variable "allowed_ports" {
 	default = [
 		"22",
+		"80",
 		"5000",
                 "8080"
 	]
@@ -76,7 +77,11 @@ provider "google" {
 resource "google_compute_firewall" "default" {
 	name = "${var.name}-firewall"
 	network = "${var.network}"
-	target_tags = ["http-server", "https-server", "${var.name}-main", "${var.name}-jenkins", "${var.name}-python"]
+	target_tags = [
+		"${var.name}-nginx",
+		"${var.name}-worker",
+		"${var.name}-manager"
+	]
 	source_ranges = ["0.0.0.0/0"]
 
 	allow {

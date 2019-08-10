@@ -1,6 +1,10 @@
 #!/bin/bash
 
-# user your flask app (make a docker image and push to docker hub)
+echo ""
+echo "This machine's private IP is: "
+hostname --ip-address
+echo ""
+
 echo ""
 echo "*  *  *  *  *  *  *  *"
 echo ""

@@ -1,6 +1,10 @@
 #!/bin/bash
 
 # user your flask app (make a docker image and push to docker hub)
+echo ""
+echo "This machine's private IP is: "
+hostname --ip-address
+echo ""
 
 echo "*  *  *  *  *  *  *  *"
 echo "Swarm initialization started on Manager Node"
@@ -14,7 +18,7 @@ echo ""
 echo "Press Enter after you have ran through the Worker node setup"
 read 
 
-docker service create --name fancy_service --publish 80:9000 --replicas 2 dimitrioskay/basic-flask:latest
+docker service create --name fancy_service --publish 80:5000 --replicas 2 dimitrioskay/basic-flask:latest
 
 echo ""
 echo "*  *  *  *  *  *  *  *"
@@ -32,7 +36,7 @@ while true; do
 			docker node ls
 			echo ""
 			echo "*  *  *  *  *  *  *  *"
-			echo "VV Runnind nodes below VV"
+			echo "VV Runnind services below VV"
 			echo "*  *  *  *  *  *  *  *"
 			docker service ls
 			echo "*  *  *  *  *  *  *  *"
